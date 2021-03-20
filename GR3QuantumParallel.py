@@ -146,6 +146,21 @@ class GR3QuantumParallel(object):
         counts = result.get_counts(circuit)
         # print("\nTotal count for 00 and 11 are:",counts)
         print("\nTotal count for 00, 01, 10 and 11 are:",counts)
+        # 00, 01, 10 and 11 vin de la folosirea a doi qubits.
+        # Pentru trei qubits avem: 000, 001, 010, 011,
+        #                          100, 101, 110, 111
+        # Posibila interpretare pentru text articol:
+    # Starile 000, 001, 010, 011, 100, 101, 110, 111 ar fi graful data.
+    # Pentru un exemplu 011 ar fi un query graph (cu numele 011).
+    # Prin porti se influenteaza cresterea cat mai mare a
+    # procentului probabilitatii starii 011, precum este afisat
+    # in histogramele initiala si cea de dupa rulare al unui circuit.
+    # Deocamdata nu ma ocup de encodarea si stocarea in oracol
+    # al grafurilor. Stocarea in oracol al grafurilor cica nu este ok
+    # in privinta algoritmului lui Grover, care si-ar pierde avantajul vitezei.
+    #
+
+
 
     # #
     # https://stackoverflow.com/questions/18815820/how-to-convert-string-to-binary
