@@ -21,6 +21,7 @@
 # https://ocw.mit.edu/courses/physics/8-04-quantum-physics-i-spring-2013/
 # Si filmari: https://ocw.mit.edu/courses/physics/8-04-quantum-physics-i-spring-2013/lecture-videos/
 # Exemplu lucrat. Cautarea unui nume intr-o lista de nume:
+
 # https://quantumcomputing.stackexchange.com/questions/2149/grovers-algorithm-what-to-input-to-oracle
 # Let me try to answer your question with a simple, direct answer:
 #
@@ -151,7 +152,12 @@ class GR3QuantumParallel(object):
         #                          100, 101, 110, 111
         # Posibila interpretare pentru text articol:
     # Starile 000, 001, 010, 011, 100, 101, 110, 111 ar fi graful data.
-    # Pentru un exemplu 011 ar fi un query graph (cu numele 011).
+    # Pentru un exemplu 011 ar fi un query graph (cu numele 011,
+    # conform
+    # (1) https://quantumcomputing.stackexchange.com/questions/2149/grovers-algorithm-what-to-input-to-oracle
+    # si
+    # (2) https://quantumcomputing.stackexchange.com/questions/16350/understanding-grovers-algorithm).
+
     # Prin porti se influenteaza cresterea cat mai mare a
     # procentului probabilitatii starii 011, precum este afisat
     # in histogramele initiala si cea de dupa rulare al unui circuit.
@@ -160,7 +166,11 @@ class GR3QuantumParallel(object):
     # in privinta algoritmului lui Grover, care si-ar pierde avantajul vitezei.
     #
 
-
+    # Conform (1) precum a raspuns vy32, sirul abcdefgh este compus din 4 elemente a cate doi biti,
+    # unde se verifica daca ab=11, cd=11, ef=11, gh=11 pt cazul cand este nevoie de Dio=11
+    # Daca se folosesc elemente a cate trei biti (daca se folosesc trei qubits?) ar fi
+    # verificarea daca abc=011, def=011, gh(s-ar adauga si i?), ghi=11, daca se face cautarea
+    # dupa Dio=011?
 
     # #
     # https://stackoverflow.com/questions/18815820/how-to-convert-string-to-binary
