@@ -172,6 +172,15 @@ class GR3QuantumParallel(object):
     # verificarea daca abc=011, def=011, gh(s-ar adauga si i?), ghi=11, daca se face cautarea
     # dupa Dio=011?
 
+    # De scris in articol despre folosirea grafurilor
+    # query si data sub forma de matrice de adiacenta avand
+    # elementele matricei valori 0 sau 1, si posibilitatea
+    # de a le da ca si date de intrare pentru quantum.
+
+    # Titlu posibil:
+    # The GR3 Algorithm for Parallel
+    # Quantum Searching of Subgraph Isomorphism
+
     # #
     # https://stackoverflow.com/questions/18815820/how-to-convert-string-to-binary
     def encode_string_for_oracle(self, string_to_be_encoded):
