@@ -177,6 +177,10 @@ class GR3QuantumParallel(object):
     # elementele matricei valori 0 sau 1, si posibilitatea
     # de a le da ca si date de intrare pentru quantum.
 
+    # Perspeciva pe care am mentionat-o la GR2 Algorithm la planurile de viitor:
+    # Conform documentatiei IBM Quantum Experience (sau Qiskit, nu imi aduc aminte pe moment)
+    # orice algoritm cu computatie clasica poate contine parti de Quantum Computing.
+
     # Titlu posibil:
     # The GR3 Algorithm for Parallel
     # Quantum Searching of Subgraph Isomorphism
