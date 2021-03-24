@@ -181,6 +181,13 @@ class GR3QuantumParallel(object):
     # Conform documentatiei IBM Quantum Experience (sau Qiskit, nu imi aduc aminte pe moment)
     # orice algoritm cu computatie clasica poate contine parti de Quantum Computing.
 
+    # Idee context:
+    # 000, 001, 010, 011, 100, 101, 110, 111 sa fie indecsi ale unor subgrafuri
+    # care in total formeaza un graf data.
+    # Spre exemplu se cauta 011 care este indexul unui graf query.
+    # Se va arata colectia de porti care ofera amplitudinea cea mai mare pentru
+    # subgraful cu indexul 011 din graful data astfel descris.
+
     # Titlu posibil:
     # The GR3 Algorithm for Parallel
     # Quantum Searching of Subgraph Isomorphism
