@@ -63,6 +63,7 @@ import qiskit
 from qiskit import IBMQ, execute, QuantumRegister, ClassicalRegister, QuantumCircuit
 from numpy import pi
 
+
 from distributed import Client, LocalCluster, Worker, wait, progress
 
 class GR3QuantumParallel(object):
@@ -70,7 +71,7 @@ class GR3QuantumParallel(object):
     #     self.quantum_backend_name = quantum_backend_name
 
     # Va fi apelat pe fiecare proces Dask
-    def send_to_kingdom(self, quantum_backend_name):
+    def send_to_kingdom(self, quantum_backend_name, circuit_object):
         # IBMQ.save_account('e6bbad0f51ab787aec48bed242c422777f1680f0428e19b34e19bbcd467a2faff2bdcedd0cbb04b19f4bb700f66900728f778d4bc8226785e6c35dc818374ac8',
         #                   overwrite=True)
         provider = IBMQ.load_account()
@@ -79,9 +80,7 @@ class GR3QuantumParallel(object):
 
         # backend = simulator = provider.get_backend('ibmq_qasm_simulator')
         # backend = simulator = provider.get_backend('ibmq_lima')
-        backend = simulator = provider.get_backend(quantum_backend_name)
-
-
+        backend = provider.get_backend(quantum_backend_name)
 
         # # CIRCUITS
 
@@ -100,39 +99,50 @@ class GR3QuantumParallel(object):
         # #
         # https://quantum-computing.ibm.com/composer/docs/guide/grovers-algorithm
         # Grover pentru 00
-        qreg_q = QuantumRegister(2, 'q')
-        creg_c = ClassicalRegister(2, 'c')
-        circuit = QuantumCircuit(qreg_q, creg_c)
-        circuit.reset(qreg_q[0])
-        circuit.reset(qreg_q[1])
-        circuit.h(qreg_q[1])
-        circuit.h(qreg_q[0])
-        circuit.s(qreg_q[1])
-        circuit.s(qreg_q[0])
-        circuit.h(qreg_q[1])
-        circuit.cx(qreg_q[0], qreg_q[1])
-        circuit.s(qreg_q[0])
-        circuit.h(qreg_q[1])
-        circuit.h(qreg_q[0])
-        circuit.s(qreg_q[1])
-        circuit.x(qreg_q[0])
-        circuit.h(qreg_q[1])
-        circuit.x(qreg_q[1])
-        circuit.h(qreg_q[1])
-        circuit.cx(qreg_q[0], qreg_q[1])
-        circuit.x(qreg_q[0])
-        circuit.h(qreg_q[1])
-        circuit.h(qreg_q[0])
-        circuit.x(qreg_q[1])
-        circuit.h(qreg_q[1])
-        circuit.measure(qreg_q[0], creg_c[0])
-        circuit.measure(qreg_q[1], creg_c[1])
+        # qreg_q = QuantumRegister(2, 'q')
+        # creg_c = ClassicalRegister(2, 'c')
+        # circuit = QuantumCircuit(qreg_q, creg_c)
+        # circuit.reset(qreg_q[0])
+        # circuit.reset(qreg_q[1])
+        # circuit.h(qreg_q[1])
+        # circuit.h(qreg_q[0])
+        # circuit.s(qreg_q[1])
+        # circuit.s(qreg_q[0])
+        # circuit.h(qreg_q[1])
+        # circuit.cx(qreg_q[0], qreg_q[1])
+        # circuit.s(qreg_q[0])
+        # circuit.h(qreg_q[1])
+        # circuit.h(qreg_q[0])
+        # circuit.s(qreg_q[1])
+        # circuit.x(qreg_q[0])
+        # circuit.h(qreg_q[1])
+        # circuit.x(qreg_q[1])
+        # circuit.h(qreg_q[1])
+        # circuit.cx(qreg_q[0], qreg_q[1])
+        # circuit.x(qreg_q[0])
+        # circuit.h(qreg_q[1])
+        # circuit.h(qreg_q[0])
+        # circuit.x(qreg_q[1])
+        # circuit.h(qreg_q[1])
+        # circuit.measure(qreg_q[0], creg_c[0])
+        # circuit.measure(qreg_q[1], creg_c[1])
 
+        # Test nr 1, rulat neparalel in 23 MAR 2021
+        # si paralel in 24 MAR 2021
+
+
+
+
+
+        # VECHI
         # https://qiskit.org/textbook/ch-algorithms/grover.html
         # circuit = self.initialize_s(self.prepare_quantum_circuit(2), [0, 1])
+        # VECHI
 
         # Execute the circuit on the qasm simulator
-        job = execute(circuit, simulator, shots=1000)
+        job = execute(circuit_object, backend, shots=8192)
+        # print(backend.name())
+
         # #
         # https://medium.com/analytics-vidhya/grovers-algorithm-in-python-c1dfa132e3af
         #
@@ -144,7 +154,7 @@ class GR3QuantumParallel(object):
         result = job.result()
 
         # Returns counts
-        counts = result.get_counts(circuit)
+        counts = result.get_counts(circuit_object)
         # print("\nTotal count for 00 and 11 are:",counts)
         print("\nTotal count for 00, 01, 10 and 11 are:",counts)
         # 00, 01, 10 and 11 vin de la folosirea a doi qubits.
@@ -182,10 +192,12 @@ class GR3QuantumParallel(object):
     # orice algoritm cu computatie clasica poate contine parti de Quantum Computing.
 
     # Idee context:
-    # 000, 001, 010, 011, 100, 101, 110, 111 sa fie indecsi ale unor subgrafuri
+    # 000, 001, 010, 011, 100, 101, 110, 111 sa fie
+    # indecsi ale unor subgrafuri
     # care in total formeaza un graf data.
     # Spre exemplu se cauta 011 care este indexul unui graf query.
-    # Se va arata colectia de porti care ofera amplitudinea cea mai mare pentru
+    # Se va arata colectia de porti care ofera amplitudinea
+    # cea mai mare pentru
     # subgraful cu indexul 011 din graful data astfel descris.
 
     # Titlu posibil:
@@ -194,22 +206,24 @@ class GR3QuantumParallel(object):
 
     # #
     # https://stackoverflow.com/questions/18815820/how-to-convert-string-to-binary
-    def encode_string_for_oracle(self, string_to_be_encoded):
-        # binary_st = ' '.join(format(ord(x), 'b') for x in string_to_be_encoded)
-        binary_st = ''.join(format(ord(x), 'b') for x in string_to_be_encoded)
-        return binary_st
-    # #
+
+    # def encode_string_for_oracle(self, string_to_be_encoded):
+    #     # binary_st = ' '.join(format(ord(x), 'b') for x in string_to_be_encoded)
+    #     binary_st = ''.join(format(ord(x), 'b') for x in string_to_be_encoded)
+    #     return binary_st
 
     # #
+    # VECHI
     # https://qiskit.org/textbook/ch-algorithms/grover.html
-    def prepare_quantum_circuit(self, number_of_qubits):
-        q_circuit = QuantumCircuit(number_of_qubits)
-        return q_circuit
-    def initialize_s(self, qc, qubits):
-        """Apply a H-gate to 'qubits' in qc"""
-        for q in qubits:
-            qc.h(q)
-        return qc
+    # def prepare_quantum_circuit(self, number_of_qubits):
+    #     q_circuit = QuantumCircuit(number_of_qubits)
+    #     return q_circuit
+    # def initialize_s(self, qc, qubits):
+    #     """Apply a H-gate to 'qubits' in qc"""
+    #     for q in qubits:
+    #         qc.h(q)
+    #     return qc
+    # VECHI
     # #
 
 
@@ -220,16 +234,81 @@ if __name__ == '__main__':
     client = Client(lc)
 
     gr3 = GR3QuantumParallel()
-    future = client.submit(gr3.send_to_kingdom, 'ibmq_lima')
-    # future2 = client.submit(gr3.send_to_kingdom, 'ibmq_qasm_simulator')
+
+    # Circuit Test 1
+    qreg_q_1 = QuantumRegister(5, 'q')
+    creg_c_1 = ClassicalRegister(5, 'c')
+    circuit_1 = QuantumCircuit(qreg_q_1, creg_c_1)
+    circuit_1.reset(qreg_q_1[0])
+    circuit_1.reset(qreg_q_1[1])
+    circuit_1.h(qreg_q_1[0])
+    circuit_1.h(qreg_q_1[1])
+    circuit_1.ch(qreg_q_1[1], qreg_q_1[0])
+    circuit_1.measure(qreg_q_1[0], creg_c_1[0])
+    circuit_1.measure(qreg_q_1[1], creg_c_1[1])
+
+    # Circuit Test 2
+    qreg_q_2 = QuantumRegister(5, 'q')
+    creg_c_2 = ClassicalRegister(5, 'c')
+    circuit_2 = QuantumCircuit(qreg_q_2, creg_c_2)
+    circuit_2.reset(qreg_q_2[0])
+    circuit_2.reset(qreg_q_2[1])
+    circuit_2.reset(qreg_q_2[2])
+    circuit_2.reset(qreg_q_2[3])
+    circuit_2.reset(qreg_q_2[4])
+    circuit_2.h(qreg_q_2[0])
+    circuit_2.h(qreg_q_2[1])
+    circuit_2.h(qreg_q_2[2])
+    circuit_2.h(qreg_q_2[3])
+    circuit_2.h(qreg_q_2[4])
+    circuit_2.ch(qreg_q_2[1], qreg_q_2[0])
+    circuit_2.h(qreg_q_2[4])
+    circuit_2.measure(qreg_q_2[0], creg_c_2[0])
+    circuit_2.measure(qreg_q_2[1], creg_c_2[1])
+    circuit_2.measure(qreg_q_2[2], creg_c_2[2])
+    circuit_2.measure(qreg_q_2[3], creg_c_2[3])
+    circuit_2.measure(qreg_q_2[4], creg_c_2[4])
+
+    # Circuit Test 3
+    qreg_q_3 = QuantumRegister(5, 'q')
+    creg_c_3 = ClassicalRegister(5, 'c')
+    circuit_3 = QuantumCircuit(qreg_q_3, creg_c_3)
+    circuit_3.reset(qreg_q_3[0])
+    circuit_3.reset(qreg_q_3[1])
+    circuit_3.reset(qreg_q_3[2])
+    circuit_3.reset(qreg_q_3[3])
+    circuit_3.reset(qreg_q_3[4])
+    circuit_3.h(qreg_q_3[0])
+    circuit_3.h(qreg_q_3[1])
+    circuit_3.h(qreg_q_3[2])
+    circuit_3.h(qreg_q_3[3])
+    circuit_3.h(qreg_q_3[4])
+    circuit_3.ch(qreg_q_3[1], qreg_q_3[0])
+    circuit_3.x(qreg_q_3[2])
+    circuit_3.z(qreg_q_3[3])
+    circuit_3.h(qreg_q_3[4])
+    circuit_3.h(qreg_q_3[3])
+    circuit_3.measure(qreg_q_3[0], creg_c_3[0])
+    circuit_3.measure(qreg_q_3[1], creg_c_3[1])
+    circuit_3.measure(qreg_q_3[2], creg_c_3[2])
+    circuit_3.measure(qreg_q_3[3], creg_c_3[3])
+    circuit_3.measure(qreg_q_3[4], creg_c_3[4])
+
+    future1 = client.submit(gr3.send_to_kingdom, 'ibmq_lima', circuit_3)
+    future2 = client.submit(gr3.send_to_kingdom, 'ibmq_belem', circuit_3)
+    future3 = client.submit(gr3.send_to_kingdom, 'ibmq_quito', circuit_3)
+
 
     # # https://stackoverflow.com/questions/41904987/is-it-possible-to-wait-until-persist-finishes-caching-in-dask
     # # http://distributed.readthedocs.io/en/latest/api.html#distributed.client.wait
     # # http://distributed.readthedocs.io/en/latest/api.html#distributed.diagnostics.progress
-    wait([future])#, future2])
+    wait([future1, future2, future3])
+    # wait([future3])
+
     # # progress([future, future2])
-    future.result()
+    # future1.result()
     # future2.result()
+    future3.result()
 
     # print(gr3.encode_string_for_oracle("John"))
     # print(gr3.encode_string_for_oracle("James"))
