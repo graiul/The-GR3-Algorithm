@@ -200,6 +200,8 @@ class GR3QuantumParallel(object):
     # cea mai mare pentru
     # subgraful cu indexul 011 din graful data astfel descris.
 
+    # DE SCRIS IN ARTICOL DESPRE ALGORITMUL LUI GROVER.
+
     # Titlu posibil:
     # The GR3 Algorithm for Parallel
     # Quantum Searching of Subgraph Isomorphism
