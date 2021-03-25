@@ -627,9 +627,9 @@ if __name__ == '__main__':
     circuit_6_3.measure(qreg_q_6_3[4], creg_c_6_3[4])
 
 
-    future1 = client.submit(gr3.send_to_kingdom, 'ibmq_lima', circuit_3)
-    future2 = client.submit(gr3.send_to_kingdom, 'ibmq_belem', circuit_3)
-    future3 = client.submit(gr3.send_to_kingdom, 'ibmq_quito', circuit_3)
+    future1 = client.submit(gr3.send_to_kingdom, 'ibmq_lima', circuit_6_1)
+    future2 = client.submit(gr3.send_to_kingdom, 'ibmq_belem', circuit_6_2)
+    future3 = client.submit(gr3.send_to_kingdom, 'ibmq_quito', circuit_6_3)
 
 
     # # https://stackoverflow.com/questions/41904987/is-it-possible-to-wait-until-persist-finishes-caching-in-dask
