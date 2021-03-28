@@ -201,6 +201,12 @@ class GR3QuantumParallel(object):
     # subgraful cu indexul 011 din graful data astfel descris.
 
     # DE SCRIS IN ARTICOL DESPRE ALGORITMUL LUI GROVER.
+    # Teste cu paralel
+    # De pus in articol coduri de la IBM
+    # De dezvoltat intro, despre binar si index si "abcdef"
+    # Orice sistem poate avea starea sa descrisa printr-un sir de 0 si 1 =>
+    # sistem cu mai multi qubiti si portile cuantice care ofera posibilitatea
+    # vitezelor foarte mari. De cautat si referinta bibliografica.
 
     # Titlu posibil:
     # The GR3 Algorithm for Parallel
